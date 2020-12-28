@@ -15,7 +15,7 @@ app.use(express.static(__dirname + '/play'));
 app.use(express.static(__dirname + '/game'));
 routes(app);
 
-server.listen(3000, '0.0.0.0', function() {
+server.listen(port, function() {
     console.log('Server listening on port %d', port);
 });
 
