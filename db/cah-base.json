@@ -1,5 +1,10 @@
 {"blackCards":[
     {"text":"Why can't I sleep at night?","pick":1},
+    {"text":"Pior do que o rancor da Daniela só o ____","pick":1},
+    {"text":" A Joana gosta mais de  ____","pick":1},
+    {"text":" A Bea foi a uma festa para _____","pick":1},
+    {"text":" O Cheu foi vender ____","pick":1},
+    {"text":" O Pedro mandou uma cantada para conseguir ___","pick":1},
     {"text":"I got 99 problems but _ ain't one.","pick":1},
     {"text":"What's a girl's best friend?","pick":1},
     {"text":"What's that smell?","pick":1},
@@ -91,6 +96,16 @@
     {"text":"Daddy, why is Mommy crying?","pick":1}
 ], "whiteCards":[
     "Coat hanger abortions.",
+    "Bacalhau",
+    "Free Netflix",
+    "Drogas",
+    "A Joana",
+    "A Daniela",
+    "A Dânia",
+    "A Bea",
+    "O Pedro",
+    "O Cheu",
+    "Jogar Amoung us",
     "Man meat.",
     "Autocannibalism.",
     "Vigorous jazz hands.",
