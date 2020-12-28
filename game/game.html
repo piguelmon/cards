@@ -1,0 +1,96 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cartas Contra o People!</title>
+  <link rel="stylesheet" href="common-dark.css">
+  <link rel="stylesheet" href="game.css">
+</head>
+<body>
+  <div class="header">
+    <div class="headerLeft"><a class="home" href="/">Home</a></div>
+    <div class="headerRight">
+      <img class="unlock" src="/unlock.png" width="25px" height="25px"/>
+      <label class="code">?</label>
+    </div>
+    <div class="headerCenter">Cartas Contra o People!</div>
+  </div>
+  <ul class="pages">
+    <li class="new page">
+      <h3 class="title">Cartas Contra o People!</h3>
+      <div class="newButton">
+        <input class="button" type="button" value="Novo Jogo"/>
+      </div>
+    </li>
+    <li class="lobby page">
+      <h3 class="title">Sala</h3>
+      <ul class="lobbyList">
+      </ul>
+      <div class="readyLabel">
+        <label class="label">Preciso 2 jogadores para começar.</label>
+      </div>
+      <div class="startButton">
+        <input class="button" type="button" disabled="disabled" value="Começar"/>
+      </div>
+      <ol class="gameCode">
+        <li><label class="label">https://www.cartascontrapeople.herokuapp.com/play</label></li>
+        <li><label class="label">Insere o código:  <span class="bodyCode code">?</span> para jogar!</label></li>
+      </ol>
+    </li>
+    <li class="question page">
+      <h3 class="title">Ronda 0</h3>
+      <div class="label">Tempo Restante: <span class="roundTimer">25</span></div>
+      <div class="questionLabel">
+        <label class="label">Pergunta</label>
+      </div>
+      <ul class="answeredList">
+      </ul>
+    </li>
+    <li class="vote page">
+      <h3 class="title">Seleciona o teu preferido</h3>
+      <div class="label">Tempo restante: <span class="voteTimer">20</span></div>
+      <div class="questionLabel">
+        <label class="label">Pergunta</label>
+      </div>
+      <ul class="submittedList">
+      </ul>
+      <ul class="votedList">
+      </ul>
+    </li>
+    <li class="result page">
+      <h3 class="title">Resultado das votações</h3>
+      <div class="questionLabel">
+        <label class="label">Pergunta</label>
+      </div>
+      <table class="resultTable">
+        <thead>
+          <tr class="colHeadTr">
+            <td>Jogador</td>
+            <td>Cartas</td>
+            <td>Votos</td>
+          </tr>
+        </thead>
+        <tbody class="resultBody">
+        </tbody>
+      </table>
+    </li>
+    <li class="score page">
+      <h3 class="title">Tabela de Pontuação</h3>
+      <table class="scoreTable">
+        <thead>
+          <tr class="colHeadTr">
+            <td>Jogador</td>
+            <td>Pontuação</td>
+          </tr>
+        </thead>
+        <tbody class="scoreBody">
+        </tbody>
+      </table>
+    </li>
+  </ul>
+  <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/game.js"></script>
+  <script src="/state.js"></script>
+</body>
+</html>

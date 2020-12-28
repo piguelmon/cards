@@ -1,0 +1,56 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cartas Contra o People!</title>
+  <link rel="stylesheet" href="common-dark.css">
+  <link rel="stylesheet" href="play.css">
+</head>
+<body>
+  <ul class="pages">
+    <div class="waitingLabel2" style="margin-top:2%; margin-bottom:2%;">
+      <h3 class="label"></h3>
+    </div>
+    <li class="login page">
+      <div class="form">
+        <h3 class="title">Cartas Contra o People!</h3>
+        <div class="roomCode">
+          <label class="label">Código da Sala:</label>
+          <input class="input" type="text" maxlength="4" size="6"/>
+        </div>
+        <div class="username">
+          <label class="label">Nome:</label>
+          <input class="input" type="text" maxlength="12" size="14"/>
+        </div>
+        <div class="playButton">
+          <input class="button" type="button" value="Jogar"/>
+        </div>
+      </div>
+    </li>
+    <li class="wait page">
+      <h3 class="title">Cartas Contra o People!</h3>
+      <div class="welcomeLabel">
+        <label class="label">Bem-vindo Label</label>
+      </div>
+      <div class="waitingLabel">
+        <label class="label">Esperando Label</label>
+      </div>
+    </li>
+  
+    <li class="card page">
+      <h2 class="question"></h2>
+      <h3 class="title">Seleciona a tua resposta</h3>
+      <ul class="cardList">
+      </ul>
+    </li>
+    <li class="vote page">
+      <h3 class="title">Seleciona a tua favorita</h3>
+      <ul class="voteList">
+      </ul>
+    </li>
+  </ul>
+  <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/play.js"></script>
+</body>
+</html>
