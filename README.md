@@ -6,17 +6,9 @@ The Cards Against Humanity game as an online application using Node.js and socke
 
 Clone and get dependencies:
 ```
-$ git clone https://github.com/demarna1/CardsAgainstHumanity.git
-$ cd CardsAgainstHumanity
+$ git clone https://github.com/piguelmon/cards.git
+$ cd cards
 $ npm install
-```
-
-Download Ivona credentials from here: https://www.ivona.com/us/account/speechcloud/credentials
-
-Place credentials in proper location:
-```
-$ mkdir cred
-$ mv ~/Downloads/credentials_*.txt cred/ivona_cred.txt
 ```
 
 Start the server with:
@@ -34,5 +26,7 @@ $ ./push_to_heroku.sh
 $ heroku open
 ```
 
-The page is hosted at `https://cah-node.herokuapp.com`
+The page is hosted at `https://cartascontrapeople.herokuapp.com`
+
+### Project made for fun
 
