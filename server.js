@@ -172,7 +172,9 @@ io.on('connection', function (socket) {
         }*/
         var count = 0;
         for(var item in cards.whiteCards){
-            
+            if(!socket.roomCode){
+                return null;
+            }
             if(!white_cards_used[socket.roomCode][item]){
                 white_cards_used[socket.roomCode][item] = 1;
                 whiteCards.push(cards.whiteCards[item]);
@@ -217,9 +219,9 @@ io.on('connection', function (socket) {
     });
 
     // The voting is over
-    socket.on('voting over', function () {
+    socket.on('voting over', function (res) {
         console.log('voting over, all users voted');
-        socket.broadcast.emit('voting over');
+        socket.broadcast.emit('voting over', res);
     });
 
     // The client or game host has disconnected

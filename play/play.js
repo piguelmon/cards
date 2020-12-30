@@ -3,6 +3,8 @@ $(function() {
     var $loginPage = $('.login.page');
     var $waitPage = $('.wait.page');
     var $cardPage = $('.card.page');
+    var $resultPage = $('.result.page');
+    $resultPage.fadeOut();
     var $votePage = $('.vote.page');
     var $currentPage = $loginPage
 
@@ -15,7 +17,7 @@ $(function() {
     var $question = $('.waitingLabel2 .label');
     var $cardList = $('.cardList');
     var $voteList = $('.voteList');
-
+    var $resultBody = $('.resultBody');
     // State variables
     var socket = io();
     var username = '';
@@ -72,6 +74,7 @@ $(function() {
     });
 
     socket.on('new round', function (data) {
+        $resultBody.empty();
         cardsToAnswer = data.pick;
         $question.text(data.text);
         $('.cardButtonSelected').parent().remove();
@@ -104,12 +107,28 @@ $(function() {
         transitionTo($votePage);
     });
 
-    socket.on('voting over', function () {
+    function addResultRow(r,i) {
+        $resultBody.append('<tr id="result' + i + '" style="visibility:hidden;">' +
+            '<td class="label">' + r.user + '</td>' +
+            '<td><button class="cardButton">' + r.cards + '</button></td>' +
+            '<td class="label">' + r.voters.length + '</td>' +
+        '</tr>');
+        $('#result' + i).css('visibility', 'visible').hide().fadeIn();
+    }
+
+    socket.on('voting over', function (res) {
+        
+        for(var i = 0; i < res.results.length; i++) {
+            addResultRow(res.results[i],i)
+        }
+        transitionTo($resultPage);
         cardsToAnswer = 0;
         $question.text(" ");
+
+        /*
         $welcomeLabel.text('A votação acabou!');
         $waitingLabel.text('Esperando nova ronda...');
-        transitionTo($waitPage);
+        transitionTo($waitPage);*/
     });
 
     socket.on('host left', function (data) {

@@ -102,7 +102,9 @@ $(function() {
     }
 
     function endVoting() {
-        socket.emit('voting over');
+        socket.emit('voting over',{
+            results: state.results
+        });
         $resultBody.empty();
         state.results.sort(function(a, b) {
             return b.voters.length - a.voters.length;
