@@ -190,6 +190,11 @@ io.on('connection', function (socket) {
         });
     });
 
+
+    socket.on('roundTimeLeft',function(timeLeft){
+        socket.broadcast.emit('roundTimeLeftClient',timeLeft);
+    })
+
     // The client has submitted an answer card
     socket.on('answer card', function (data) {
         console.log('received answer from ' + socket.username);

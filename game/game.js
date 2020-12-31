@@ -69,6 +69,7 @@ $(function() {
                 }
                 return;
             }
+            socket.emit('roundTimeLeft',timeLeft);
             $timer.text(timeLeft);
         }, 1000);
     }

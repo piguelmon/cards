@@ -9,6 +9,7 @@ $(function() {
     var $currentPage = $loginPage
 
     // Other jQuery elements
+    var $roundTimer = $('.roundTimer');
     var $roomCodeInput = $('.roomCode .input');
     var $usernameInput = $('.username .input');
     var $playButton = $('.playButton .button');
@@ -116,14 +117,38 @@ $(function() {
         $('#result' + i).css('visibility', 'visible').hide().fadeIn();
     }
 
+    function dynamicSort(property,len) {
+        var sortOrder = 1;
+        if(property[0] === "-") {
+            sortOrder = -1;
+            property = property.substr(1);
+        }
+        return function (a,b) {
+            /* next line works with strings and numbers, 
+             * and you may want to customize it to your needs
+             */
+            if(len){
+                var result = (a[property].length < b[property].length) ? -1 : (a[property].length > b[property].length) ? 1 : 0;
+            }else{
+                var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+            }
+            
+            return result * sortOrder;
+        }
+    }
+
+    socket.on('roundTimeLeftClient',function(timeLeft){
+        $roundTimer.text(timeLeft);
+    });
+
     socket.on('voting over', function (res) {
-        
+        res.results.sort(dynamicSort("-voters",true));
         for(var i = 0; i < res.results.length; i++) {
             addResultRow(res.results[i],i)
         }
         transitionTo($resultPage);
         cardsToAnswer = 0;
-        $question.text(" ");
+        //$question.text(" ");
 
         /*
         $welcomeLabel.text('A votação acabou!');
