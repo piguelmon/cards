@@ -33,6 +33,27 @@ $(function() {
         $currentPage = $nextPage;
     }
 
+
+    if ('serviceWorker' in navigator) {
+            
+        navigator.serviceWorker.register('service-worker.js').then(function(registration) {
+            console.log('Service worker registration succeeded:', registration.scope);
+        }).catch(function(error) {
+            console.log('Service worker registration failed:', error);
+        });
+
+        window.addEventListener("beforeinstallprompt", function(e) { 
+             // log the platforms provided as options in an install prompt 
+            e.userChoice.then(function(outcome) { 
+                console.log(outcome); // either "accepted" or "dismissed"
+            }, function(){
+                console.log('Not Accepted');
+            }); 
+        });
+    } else {
+        console.log('Service workers are not supported.');
+    }
+
     function registerClicks(message) {
         $('.cardButton').click(function() {
             if ($(this).attr('class') != 'cardButton' ||
