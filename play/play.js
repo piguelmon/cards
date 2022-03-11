@@ -66,7 +66,7 @@ $(function() {
     socket.on('login success', function () {
         console.log(username + ' logged in');
         $welcomeLabel.text('Hey, ' + username + '!');
-        $waitingLabel.text('Esperando uma nova ronda começar...');
+        $waitingLabel.text('Waiting new round to start...');
         transitionTo($waitPage);
     });
 
@@ -160,6 +160,6 @@ $(function() {
         $roomCodeInput.val('');
         cardsToAnswer = 0;
         transitionTo($loginPage);
-        alert('O criador da sala ' + data.gameCode + ' saiu!');
+        alert('Host left the room ' + data.gameCode);
     });
 });

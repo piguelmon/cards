@@ -44,6 +44,31 @@ ul {
   margin-right: 8px;
 }
 
+.speech-bubble {
+  background: #21bf62;
+  color: #333;
+  display: inline-block;
+	font-size: 14px;
+  line-height: 4em;
+  margin-bottom: 1em;
+	padding: 0 1em;
+	position: relative;
+	text-align: center;
+	vertical-align: top;
+		min-width: 7em;
+}
+.speech-bubble:after {
+	border: 1em solid transparent;
+	border-top-color: #21bf62;
+	content: '';
+	margin-left: -1em;
+	position: absolute;
+		top: 100%;
+		left: 50%;
+	width: 0;
+	height: 0;
+}
+
 .roomCode .input, .username .input {
   background-color: transparent;
   border: 1px solid #fff;
