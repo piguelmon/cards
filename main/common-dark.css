@@ -24,7 +24,7 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  background: linear-gradient(180deg, #3d149d,  #067bff) fixed;
+  background: linear-gradient(180deg, #000,  #201f1f) fixed;
   text-align: center;
 }
 
