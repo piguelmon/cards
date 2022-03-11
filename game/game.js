@@ -24,7 +24,7 @@ $(function() {
     var $votedList = $('.votedList');
     var $resultBody = $('.resultBody');
     var $scoreBody = $('.scoreBody');
-
+    var numberOfrounds = 10;
     // State variables
     var socket = io();
     var state = null;
@@ -114,12 +114,13 @@ $(function() {
             addResultRow(i);
         }
         transitionTo($resultPage);
-        var timeout = (state.results.length * 2000) + 6000;
+        var timeout = (state.results.length * 2000) + 2000;
         setTimeout(function() {
             if ($currentPage == $resultPage) {
                 endResults();
             }
         }, timeout);
+       
     }
 
     function addScoreRow(i) {
@@ -128,7 +129,7 @@ $(function() {
             '<td class="label">' + r.username + '</td>' +
             '<td class="label">' + r.score + '</td>' +
         '</tr>');
-        timeout = (state.players.length - i) * 2000;
+        timeout = (state.players.length - i) * 1000;
         console.log('setting visibility timeout of ' + timeout);
         setTimeout(function() {
             console.log('setting visible');
@@ -137,6 +138,7 @@ $(function() {
     }
 
     function endResults() {
+        socket.emit('updateState', state);
         $scoreBody.empty();
         state.players.sort(function(a, b) {
             return b.score - a.score;
@@ -145,11 +147,22 @@ $(function() {
             addScoreRow(i);
         }
         transitionTo($scorePage);
-        var timeout = (state.players.length * 2000) + 6000;
+        var timeout = (state.players.length * 2000) + 2000;
         setTimeout(function() {
-            if ($currentPage == $scorePage) {
-                socket.emit('start game');
+            if(state.round === numberOfrounds){
+                socket.emit('gameOver',{
+                    players: state.players
+                });
+                var timeout = (state.players.length * 2000) + 6000;
+                setTimeout(function() {
+                    window.location.reload();
+                },timeout)
+            }else{
+                if ($currentPage == $scorePage) {
+                    socket.emit('start game');
+                }
             }
+            
         }, timeout);
     }
 
@@ -174,6 +187,7 @@ $(function() {
     });
 
     socket.on('user joined', function (data) {
+        socket.emit('updateState', state);
         state.addUser(data.username);
         console.log('user joined, numPlayers = ' + state.players.length);
         updateLobby();
@@ -181,10 +195,12 @@ $(function() {
 
     socket.on('user left', function (data) {
         state.removeUser(data.username);
+        socket.emit('updateState', state);
         console.log('user left, numPlayers = ' + state.players.length);
         updateLobby();
         if (state.players.length < 2) {
             state.restart();
+            socket.emit('updateState', state);
             transitionTo($lobbyPage);
         }
     });
@@ -193,6 +209,7 @@ $(function() {
         console.log('Q: ' + data.text);
         state.newRound();
         $questionRound.text('Ronda ' + state.round);
+     
         $questionLabel.text(data.text);
         $answeredList.empty();
         transitionTo($questionPage);

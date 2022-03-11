@@ -73,6 +73,7 @@ io.on('connection', function (socket) {
         });
     });
 
+
     // The client is logging into a room
     socket.on('login', function (data) {
         // Check the room code
@@ -152,6 +153,12 @@ io.on('connection', function (socket) {
         
     });
 
+    socket.on('gameOver', function(players,) {
+        socket.broadcast.emit('gameOver', {
+            scores: players,
+        });
+    })
+
     // The client has requested some cards
     socket.on('card request', function (data) {
         console.log('user requests ' + data.numCards + ' cards');
@@ -193,6 +200,10 @@ io.on('connection', function (socket) {
 
     socket.on('roundTimeLeft',function(timeLeft){
         socket.broadcast.emit('roundTimeLeftClient',timeLeft);
+    })
+
+    socket.on('updateState',function(data){
+        socket.broadcast.emit('updateStateGame',data)
     })
 
     // The client has submitted an answer card

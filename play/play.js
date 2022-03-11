@@ -4,6 +4,7 @@ $(function() {
     var $waitPage = $('.wait.page');
     var $cardPage = $('.card.page');
     var $resultPage = $('.result.page');
+    var $scorePage = $('.score.page');
     $resultPage.fadeOut();
     var $votePage = $('.vote.page');
     var $currentPage = $loginPage
@@ -19,11 +20,13 @@ $(function() {
     var $cardList = $('.cardList');
     var $voteList = $('.voteList');
     var $resultBody = $('.resultBody');
+    var $scoreBody = $('.scoreBody');
     // State variables
     var socket = io();
     var username = '';
     var cardsToAnswer = 0;
-
+    var state = null;
+    var roomCodePlay = null;
     function transitionTo($nextPage) {
         $currentPage.fadeOut();
         $nextPage.delay(400).fadeIn();
@@ -54,6 +57,7 @@ $(function() {
 
     $playButton.click(function() {
         var roomCode = $roomCodeInput.val().trim();
+        roomCodePlay = roomCode;
         username = $usernameInput.val().trim();
         if (roomCode.length == 4 && username) {
             socket.emit('login', {
@@ -63,7 +67,55 @@ $(function() {
         }
     });
 
+    socket.on('updateStateGame',function(data) {
+        if(data.gameCode === roomCodePlay){
+            state = data;
+        }
+    });
+
+
+    socket.on('gameOver',function(players) {
+       console.log(players);
+       endResults(players)
+    })
+
+    function addScoreRow(i) {
+        r = state.players[i];
+        $scoreBody.append('<tr id="score' + i + '" style="visibility:hidden;">' +
+            '<td class="label">' + r.username + '</td>' +
+            '<td class="label">' + r.score + '</td>' +
+        '</tr>');
+        timeout = (state.players.length - i) * 1000;
+        console.log('setting visibility timeout of ' + timeout);
+        setTimeout(function() {
+            console.log('setting visible');
+            $('#score' + i).css('visibility', 'visible').hide().fadeIn();
+            transitionTo($loginPage);
+        }, timeout);
+    }
+
+    function endResults(players) {
+        $scoreBody.empty();
+        state.players.sort(function(a, b) {
+            return b.score - a.score;
+        });
+        for (var i = 0; i < state.players.length; i++) {
+            addScoreRow(i);
+        }
+        transitionTo($scorePage);
+        var timeout = (state.players.length * 2000) + 2000;
+        setTimeout(function() {
+            if ($currentPage == $scorePage) {
+                socket.emit('start game');
+            }
+        }, timeout);
+    }
+
     socket.on('login success', function () {
+        var roomCode = $roomCodeInput.val().trim();
+        socket.emit('getState',{
+            roomCode: roomCode
+        });
         console.log(username + ' logged in');
         $welcomeLabel.text('Hey, ' + username + '!');
         $waitingLabel.text('Waiting new round to start...');
@@ -141,13 +193,50 @@ $(function() {
         $roundTimer.text(timeLeft);
     });
 
+    function addScoreRow(i) {
+        r = state.players[i];
+        $scoreBody.append('<tr id="score' + i + '" style="visibility:hidden;">' +
+            '<td class="label">' + r.username + '</td>' +
+            '<td class="label">' + r.score + '</td>' +
+        '</tr>');
+        timeout = (state.players.length - i) * 1000;
+        console.log('setting visibility timeout of ' + timeout);
+        setTimeout(function() {
+            console.log('setting visible');
+            $('#score' + i).css('visibility', 'visible').hide().fadeIn();
+        }, timeout);
+    }
+
+    function endResults() {
+        $scoreBody.empty();
+        state.players.sort(function(a, b) {
+            return b.score - a.score;
+        });
+        for (var i = 0; i < state.players.length; i++) {
+            addScoreRow(i);
+        }
+        transitionTo($scorePage);
+        var timeout = (state.players.length * 2000) + 2000;
+        setTimeout(function() {
+            if ($currentPage == $scorePage) {
+                socket.emit('start game');
+            }
+        }, timeout);
+    }
+
     socket.on('voting over', function (res) {
         res.results.sort(dynamicSort("-voters",true));
         for(var i = 0; i < res.results.length; i++) {
             addResultRow(res.results[i],i)
         }
         transitionTo($resultPage);
-        cardsToAnswer = 0;
+        /*
+        var timeout = (state.results.length * 2000) + 2000;
+        setTimeout(function() {
+            if ($currentPage == $resultPage) {
+                endResults();
+            }
+        }, timeout);*/
         //$question.text(" ");
 
         /*
