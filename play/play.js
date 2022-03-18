@@ -22,7 +22,12 @@ $(function() {
     var $resultBody = $('.resultBody');
     var $scoreBody = $('.scoreBody');
     // State variables
-    var socket = io();
+    var loc = window.location.origin
+    var socket = io(loc,{
+        'reconnection': true,
+        'reconnectionDelay': 500,
+        'reconnectionAttempts': 10
+      });
     var username = '';
     var cardsToAnswer = 0;
     var state = null;
@@ -98,6 +103,11 @@ $(function() {
     socket.on('gameOver',function(players) {
        console.log(players);
        endResults(players)
+    })
+
+    socket.on('disconnect',function() {
+        alert('Disconnected');
+        location.reload();
     })
 
     function addScoreRow(i) {
