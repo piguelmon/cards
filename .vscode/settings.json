@@ -1,0 +1,8 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/fa8d81cd-74a6-4400-83f1-ede062c198c3/resourceGroups/whotfisthis_group/providers/Microsoft.Web/sites/whotfisthis",
+    "appService.deploySubpath": "."
+}

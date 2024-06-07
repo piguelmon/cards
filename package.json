@@ -1,8 +1,11 @@
 {
-  "name": "cah-node",
+  "name": "Whotfisthis",
   "version": "0.1.3",
   "description": "Cards Against Humanity using Node.js and socket.io",
-  "author": "Noah DeMarco",
+  "author": "Pedro Arantes",
+  "scripts": {
+    "start": "node server"
+  },
   "dependencies": {
     "async": "^1.5.2",
     "express": "^4.13.3",
